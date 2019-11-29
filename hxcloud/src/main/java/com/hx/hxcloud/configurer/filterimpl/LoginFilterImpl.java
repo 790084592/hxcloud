@@ -60,21 +60,34 @@ public class LoginFilterImpl implements Filter {
 		if (excludedUris == null || excludedUris.length <= 0) {
 			return false;
 		}
-		
-//		for (String ex : excludedUris) {
-//			uri = uri.trim().toLowerCase();
-//			ex = ex.trim().toLowerCase();
-//			String uris[] = uri.split("/");
-//			if(ex.endsWith("/**")) {
-//				
-//			}else if(ex.endsWith("/*")) {
-//				
-//			}else if(uri.contentEquals(uri)) {
-//				
-//			}
-//			
-//		}
-		return true;
+		for (String ex : excludedUris) {
+			uri = uri.trim().toLowerCase();
+			ex = ex.trim().toLowerCase();
+			String exx;
+			if(ex.startsWith("/**")) {     //类似 /**/login的请求
+				 exx = ex.substring(3, ex.length()-1);
+				 if(uri.endsWith(exx)) {
+					 return true;
+				 }
+			}else if(ex.endsWith("/**")) { //类似 /login/**的请求
+				exx = ex.substring(0, ex.length()-2);
+				if(uri.startsWith(exx)) {
+					return true;
+				}
+			}else if(ex.startsWith("/*")) {//类似 /*/login的请求
+				exx = ex.substring(3, ex.length()-1);
+				String []uris = uri.split("/", 2);
+				if(uris[1].endsWith(exx)) {
+					return true;
+				}
+			}else if(ex.endsWith("/*")) {  //类似 /login/*的请求
+				exx = ex.substring(0, ex.length()-2);
+				String []uris = uri.split("/", 2);
+			}else if(ex.equals(uri)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
