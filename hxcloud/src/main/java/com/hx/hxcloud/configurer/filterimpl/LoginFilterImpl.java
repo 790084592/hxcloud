@@ -17,15 +17,22 @@ public class LoginFilterImpl implements Filter {
 	public static final String SESSION_KEY = "account";
 
 	private String[] excludedUris;
+	
+	private String contextPath;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		excludedUris = filterConfig.getInitParameter("excludedUris").split(",");
+		String path = filterConfig.getInitParameter("contextPath");
+		if(!(path == null || path.trim().length() == 0)) {
+			contextPath = path + "/";
+		}
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		request.setAttribute("contextPath", contextPath);
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String url = httpRequest.getServletPath();
@@ -53,21 +60,21 @@ public class LoginFilterImpl implements Filter {
 		if (excludedUris == null || excludedUris.length <= 0) {
 			return false;
 		}
-		for (String ex : excludedUris) {
-			uri = uri.trim().toLowerCase();
-			ex = ex.trim().toLowerCase();
-			String exx = ex;
-			if (ex.endsWith("/**")) { // "/**"指其所有子目录和文件
-				exx = ex.substring(0, ex.length()-3);
-			}else if (ex.contentEquals("/*")){ // "/*"指其下一级目录和文件
-				exx = ex.substring(0, ex.length()-2);
-				if(uri.indexOf(exx) == 0) {
-					return true;
-				}
-			}
-			
-		}
-		return false;
+		
+//		for (String ex : excludedUris) {
+//			uri = uri.trim().toLowerCase();
+//			ex = ex.trim().toLowerCase();
+//			String uris[] = uri.split("/");
+//			if(ex.endsWith("/**")) {
+//				
+//			}else if(ex.endsWith("/*")) {
+//				
+//			}else if(uri.contentEquals(uri)) {
+//				
+//			}
+//			
+//		}
+		return true;
 	}
 
 }
