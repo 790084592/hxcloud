@@ -1,9 +1,9 @@
 define(["third/echarts.min"], function(echarts) {   
 	"use strict"
 
-	var DATASOURCE_URL = "/datasource";
-	var DATASUBJECT_URL = "/datasubject";
-	var LOGIN_URL = "/login";
+	var DATASOURCE_URL = XHUI.getContextPath() + "datasource";
+	var DATASUBJECT_URL = XHUI.getContextPath() + "datasubject";
+	var LOGIN_URL = XHUI.getContextPath() + "login";
     
 	/**
 	 * 网格页面

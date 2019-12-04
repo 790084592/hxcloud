@@ -252,7 +252,7 @@ define(["third/echarts.min"], function(echarts) {
 		var loginBtn = this.doc.getElementById("loginButton");
 		loginBtn.onclick = function(){
 			XHUI.post({
-	        	action : "/dologin",
+	        	action : XHUI.getContextPath() + "dologin",
 	        	datas:{
 	        		account: accountDom.value,
 	        		password: passwordDom.value
@@ -260,7 +260,7 @@ define(["third/echarts.min"], function(echarts) {
 	        	callback: function(evt){
 	        		var data = evt.target.responseText;
 	        		if(data == "success"){
-	        			self.wnd.location.href="/home";
+	        			self.wnd.location.href= XHUI.getContextPath() + "home";
 	        		}else{
 	        			alert(data);
 	        		}
@@ -274,7 +274,7 @@ define(["third/echarts.min"], function(echarts) {
 		var logoutBtn = this.doc.getElementById("logoutButton");
 		logoutBtn.onclick = function(){
 			XHUI.post({
-	        	action : "/dologout",
+	        	action : XHUI.getContextPath() + "/dologout",
 	        	datas:{
 	        	},
 	        	callback: function(evt){

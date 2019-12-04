@@ -17,16 +17,13 @@ public class LoginFilterImpl implements Filter {
 	public static final String SESSION_KEY = "account";
 
 	private String[] excludedUris;
-	
+
 	private String contextPath;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		excludedUris = filterConfig.getInitParameter("excludedUris").split(",");
-		String path = filterConfig.getInitParameter("contextPath");
-		if(!(path == null || path.trim().length() == 0)) {
-			contextPath = path + "/";
-		}
+		contextPath = filterConfig.getInitParameter("contextPath") + "/";		
 	}
 
 	@Override
@@ -47,7 +44,7 @@ public class LoginFilterImpl implements Filter {
 				return;
 			}
 			// 跳转到登录页
-			httpResponse.sendRedirect("/login");
+			httpResponse.sendRedirect(contextPath + "login");
 		}
 	}
 
@@ -56,6 +53,11 @@ public class LoginFilterImpl implements Filter {
 
 	}
 
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 */
 	private boolean isExcludedUri(String uri) {
 		if (excludedUris == null || excludedUris.length <= 0) {
 			return false;
@@ -64,26 +66,29 @@ public class LoginFilterImpl implements Filter {
 			uri = uri.trim().toLowerCase();
 			ex = ex.trim().toLowerCase();
 			String exx;
-			if(ex.startsWith("/**")) {     //类似 /**/login的请求
-				 exx = ex.substring(3, ex.length()-1);
-				 if(uri.endsWith(exx)) {
-					 return true;
-				 }
-			}else if(ex.endsWith("/**")) { //类似 /login/**的请求
-				exx = ex.substring(0, ex.length()-2);
-				if(uri.startsWith(exx)) {
+			if (ex.startsWith("/**")) { // 类似 /**/login的请求
+				exx = ex.substring(3, ex.length() - 1);
+				if (uri.endsWith(exx)) {
 					return true;
 				}
-			}else if(ex.startsWith("/*")) {//类似 /*/login的请求
-				exx = ex.substring(3, ex.length()-1);
-				String []uris = uri.split("/", 2);
-				if(uris[1].endsWith(exx)) {
+			} else if (ex.endsWith("/**")) { // 类似 /login/**的请求
+				exx = ex.substring(0, ex.length() - 3);
+				if (uri.equals(exx) || uri.startsWith(exx + "/")) {
 					return true;
 				}
-			}else if(ex.endsWith("/*")) {  //类似 /login/*的请求
-				exx = ex.substring(0, ex.length()-2);
-				String []uris = uri.split("/", 2);
-			}else if(ex.equals(uri)){
+			} else if (ex.startsWith("/*")) {// 类似 /*/login的请求
+				exx = ex.substring(2, ex.length() - 1);
+				if (uri.equals(exx)
+						|| (uri.endsWith(exx) && uri.substring(1, uri.length() - exx.length()).indexOf("/") == -1)) {
+					return true;
+				}
+			} else if (ex.endsWith("/*")) { // 类似 /login/*的请求
+				exx = ex.substring(0, ex.length() - 2);
+				if (uri.equals(exx)
+						|| (uri.startsWith(exx + "/") && uri.substring(exx.length() + 1).indexOf("/") == -1)) {
+					return true;
+				}
+			} else if (ex.equals(uri)) {
 				return true;
 			}
 		}

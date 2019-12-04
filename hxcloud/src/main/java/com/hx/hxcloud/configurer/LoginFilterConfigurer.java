@@ -12,7 +12,7 @@ import com.hx.hxcloud.configurer.filterimpl.LoginFilterImpl;
 @Configuration
 public class LoginFilterConfigurer {
 	
-	@Value("${server.servlet.context-Path}")
+	@Value("${server.servlet.context-Path:#{''}}")
 	private String contextPath;
 
 	@Bean
@@ -23,7 +23,7 @@ public class LoginFilterConfigurer {
 		registration.setFilter(loginFilter);
 		registration.addUrlPatterns("/*");
 		HashMap<String, String> initParameters = new HashMap<String, String>();
-		initParameters.put("excludedUris", "/error,/css,/third,/webjars,/util,/images,/main,/login,/dologin");
+		initParameters.put("excludedUris", "/error,/css/**,/third/**,/webjars/**,/util/**,/images/**,/main/**,/login,/dologin");
 		initParameters.put("contextPath", contextPath);
 		System.out.println(contextPath);
 		registration.setInitParameters(initParameters);

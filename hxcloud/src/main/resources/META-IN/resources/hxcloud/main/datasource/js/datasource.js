@@ -68,7 +68,7 @@ define(["third/echarts.min"], function(echarts) {
 		var self = this;
 		this.fileListBtn = this.doc.getElementById("filedatasource");
 		this.fileListBtn.onclick = function(){
-			self.mainFrame.src = "/datasource/filelist";
+			self.mainFrame.src = XHUI.getContextPath() + "datasource/filelist";
 		}
 	}
 	

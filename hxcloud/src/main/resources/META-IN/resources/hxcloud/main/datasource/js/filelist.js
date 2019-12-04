@@ -1,4 +1,4 @@
-define(["/third/echarts.min.js"], function(echarts) {   
+define(["third/echarts.min"], function(echarts) {   
 	"use strict"
 
     
@@ -54,7 +54,7 @@ define(["/third/echarts.min.js"], function(echarts) {
 			theadClasses: "thead-gray",//这里设置表头样式
 		    classes: "table table-hover",
 			pagination: true, 
-			url: "/datasource/listFileDataSource", 
+			url: XHUI.getContextPath() + "datasource/listFileDataSource", 
 			sidePagination: "server",
 			pageList:[1,2,10,50,100],
 			pageSize: 1,                     //每页的记录行数（*）
