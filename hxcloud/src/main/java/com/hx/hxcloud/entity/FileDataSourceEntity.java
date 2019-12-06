@@ -4,6 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * 文件数据源的实体类
+ * @author xush
+ * @since 2019年12月6日
+ */
 @Entity
 @Table(name = "hxcloud_file_data_source")
 public class FileDataSourceEntity extends BaseEntity {
@@ -28,6 +33,14 @@ public class FileDataSourceEntity extends BaseEntity {
 
 	}
 	
+	/**
+	 * 
+	 * @param id 资源id
+	 * @param caption 标题
+	 * @param path 路径
+	 * @param type 类型
+	 * @param creator 创建者
+	 */
 	public FileDataSourceEntity(String id, String caption, String path, int type, String creator) {
 		this.id = id;
 		this.type = type;

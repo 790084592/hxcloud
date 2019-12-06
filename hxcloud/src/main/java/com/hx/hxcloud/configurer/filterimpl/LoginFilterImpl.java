@@ -12,13 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 拦截器具体实现类
+ * 1.初始化拦截器，获取上下文根
+ * 2.拦截未登录，且需要登录的请求
+ * 3.过滤无需登录的请求，如静态资源等
+ * @author xush
+ * @since 2019年12月6日
+ */
 public class LoginFilterImpl implements Filter {
 
-	public static final String SESSION_KEY = "account";
+	public static final String SESSION_KEY = "account"; //登录名
 
-	private String[] excludedUris;
+	private String[] excludedUris; //无需登录的请求
 
-	private String contextPath;
+	private String contextPath;  //上下文根
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

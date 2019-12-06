@@ -19,5 +19,5 @@ public interface FileDataSourceService {
 
 	public void deleteById(String id);
 
-	public List<FileDataSourceEntity> selectPlayer(FileDataSourceEntity fds, Pageable pageable);
+	public List<FileDataSourceEntity> queryList(FileDataSourceEntity fds, Pageable pageable);
 }

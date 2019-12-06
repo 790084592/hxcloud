@@ -17,6 +17,11 @@ import com.hx.hxcloud.entity.FileDataSourceEntity;
 import com.hx.hxcloud.repository.FileDataSourceRepository;
 import com.hx.hxcloud.service.FileDataSourceService;
 
+/**
+ * 文件数据源的服务实现类
+ * @author xush
+ * @since 2019年12月6日
+ */
 @Service
 public class FileDataSourceServiceImpl implements FileDataSourceService {
 	@Autowired
@@ -60,7 +65,7 @@ public class FileDataSourceServiceImpl implements FileDataSourceService {
 	}
 
 	@Override
-	public List<FileDataSourceEntity> selectPlayer(FileDataSourceEntity fds, Pageable pageable) {
+	public List<FileDataSourceEntity> queryList(FileDataSourceEntity fds, Pageable pageable) {
 		Specification<FileDataSourceEntity> query = new Specification<FileDataSourceEntity>() {
 			/**
 			 * 序列化id

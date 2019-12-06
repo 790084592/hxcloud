@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import com.hx.hxcloud.entity.FileDataSourceEntity;
 
+/**
+ * 文件数据源的仓库类
+ * @author xush
+ * @since 2019年12月6日
+ */
 @Repository
 public interface FileDataSourceRepository
 		extends JpaRepository<FileDataSourceEntity, Integer>, JpaSpecificationExecutor<FileDataSourceEntity> {
