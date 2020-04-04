@@ -57,7 +57,7 @@ define(["third/echarts.min"], function(echarts) {
 			url: XHUI.getContextPath() + "datasource/listFileDataSource", 
 			sidePagination: "server",
 			pageList:[1,2,10,50,100],
-			pageSize: 1,                     //每页的记录行数（*）
+			pageSize: 100,                     //每页的记录行数（*）
 			queryParams : function (params) {
 				//这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
 				var temp = {   
@@ -77,15 +77,19 @@ define(["third/echarts.min"], function(echarts) {
 					title: "数据源标题",
 					width: listWidth/5
 				},{
-					field: 'name',
+					field: 'caption',
 					title: "文件名称",
 					width: listWidth/5
 				}, {
 					field: "type",
 					title: "文件类型",
-					width: listWidth/5
+					width: listWidth/5,
+					formatter: function(value, row, index){
+						var result = value==0? "EXCEL":"其他";
+						return result;
+					}
 				}, {
-					field: "createDate",
+					field: "createTime",
 					title: "上传时间",
 					width: listWidth/5
 				},{
@@ -205,16 +209,17 @@ define(["third/echarts.min"], function(echarts) {
         	alert("上传表格文件不得为空");
         	return;
         }
-        var type = fileObj.name.split(".")[1];
-        if(type!="xls" && type!="xlsx"){
+        var fileNames = fileObj.name.split(".");
+        if(fileNames[1]!="xls" && fileNames[1]!="xlsx"){
         	alert("请确保上传的Excel文件为xls或xlsx格式！");
         	return;
         }
         XHUI.post({
-        	action : "/datasource/uploadDataSource",
+        	action : XHUI.getContextPath() + "datasource/uploadDataSource",
         	datas:{
         		type: 0,
-        		tag : type,
+        		fileName: fileNames[0],
+        		tag : fileNames[1],
         		file: fileObj
         	},
         	callback: function(evt){

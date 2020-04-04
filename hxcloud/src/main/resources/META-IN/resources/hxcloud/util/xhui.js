@@ -118,7 +118,6 @@
 				var relpath = wnd["$contextPath"];
 				if (relpath) return relpath;
 			}
-			debugger
 			var local = (wnd || window).location,
 				pathname = local.pathname;
 			if (!pathname || pathname == "" || pathname == "null") {

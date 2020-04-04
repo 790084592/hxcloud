@@ -77,6 +77,7 @@ public class ActionDataSource {
 	public String uploadDataSource(HttpServletRequest req) throws Exception {
 		String type = req.getParameter("type"); // 数据源类型
 		String tag = req.getParameter("tag"); // 后缀名
+		String fileName = req.getParameter("fileName"); //无后缀文件名
 		String account = (String) req.getSession().getAttribute("account"); // 用户账号
 		InputStream in = req.getPart("file").getInputStream();
 		try {
@@ -90,8 +91,8 @@ public class ActionDataSource {
 					fos.write(bytes, 0, index);
 					fos.flush();
 				}
-				FileDataSourceEntity fds = new FileDataSourceEntity(dsId, dsId, sortPath, 0, account);
-				fdsService.save(fds);
+				FileDataSourceEntity fds = new FileDataSourceEntity(dsId, fileName, sortPath, 0, account);
+ 				fdsService.save(fds);
 			} finally {
 				fos.close();
 			}
@@ -115,7 +116,7 @@ public class ActionDataSource {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		int totalCouts = fdsService.getTotalCount();
 		Pageable pageable = PageRequest.of(pageIndex-1, pageSize);
-		List<FileDataSourceEntity> list = fdsService.selectPlayer(null, pageable);
+		List<FileDataSourceEntity> list = fdsService.queryList(null, pageable);
 		result.put("total", totalCouts);
 		result.put("rows", list);
 		return result;
