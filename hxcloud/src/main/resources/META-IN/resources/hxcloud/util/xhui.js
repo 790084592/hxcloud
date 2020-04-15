@@ -241,6 +241,22 @@
 		 */
 		isObject : function(obj) {
 			return Object.prototype.toString.call(obj) === "[object Object]";
+		}, 
+		/**
+		 * 获取一个不重复的tagid
+		 * 
+		 * @param {*}
+		 *            obj 需要被判断类型的值
+		 * @returns {Boolean}
+		 */
+		getRandomTagId : function(tag) {
+			window.tagIdList = window.tagIdList || [];
+			var id = tag + Math.round(Math.random()*1000);
+			if (window.tagIdList.indexOf(id) != -1) {
+				return this.getRandomTagId(tag);
+			}
+			window.tagIdList.push(id);
+			return id;
 		},
 		/**
 		 * 判断对象是不是html元素
@@ -286,8 +302,13 @@
 				form.append(dkey, datas[dkey]);
 			}
 			var xhr = new XMLHttpRequest(); // XMLHttpRequest 对象
+			
 			xhr.open("post", url, async); // post方式，url为服务器请求地址，true
 											// 该参数规定请求是否异步处理。
+			if(querydata.onlejson){
+				xhr.setRequestHeader("Content-Type","application/json;charsetset=UTF-8");
+			}
+			
 			if (isFunction(callback)) { // 请求完成
 				xhr.onload = callback;
 			}

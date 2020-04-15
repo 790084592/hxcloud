@@ -105,6 +105,14 @@
 			<version>4.6.7</version>
 		</dependency>
 		<!--hutool 工具类集成↑ -->
+
+
+		<!--计划任务quartz集成↓ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+		<!--计划任务quartz集成↑ -->
 	</dependencies>
 
 	<build>
